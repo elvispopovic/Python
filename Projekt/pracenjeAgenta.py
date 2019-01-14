@@ -89,7 +89,7 @@ class PrimanjePoruka(spade.Behaviour.Behaviour):
             for i in range(0,3):
                 stanjeAgenta.polozaj[i]=0.0
         self.myAgent.lista_komunikacije[broj_agenta-1]=0
-        self.myAgent.lista_koordinata_susjeda[i] = stanjeAgenta
+        self.myAgent.lista_koordinata_susjeda[broj_agenta-1] = stanjeAgenta
 
                 
 
@@ -135,12 +135,18 @@ class Azuriranje(spade.Behaviour.OneShotBehaviour):
     def _process(self):
         podaci = self.myAgent.podaciDatoteka
         ime_agenta = self.myAgent.getName().split("@")[0]
+        lista_susjeda = self.myAgent.lista_koordinata_susjeda
         self.myAgent.lock.acquire()
-        for a in self.myAgent.lista_koordinata_susjeda:
+        sadrzajIspisa = ""
+        #for a in self.myAgent.lista_koordinata_susjeda:
+        for i in range(0,len(lista_susjeda)):
+            a = lista_susjeda[i]
             if a != None:
-                podaci.ispis("{0:s}: Stanje susjednog agenta {1:d}: radijus: {2:.2f}, kut: {3:f}, polozaj x: {4:f}, y: {5:f}, brzina x: {6:f}, y: {7:f}".
-                format(ime_agenta,a.brojAgenta,a.radijus,a.kut,a.polozaj[0],a.polozaj[1],a.brzina[0],a.brzina[1]))
-        
+                sadrzajIspisa += "{0:s}: Stanje susjednog agenta {1:d}: radijus: {2:.2f}, kut: {3:f}, polozaj x: {4:f}, y: {5:f},\
+brzina x: {6:f}, y: {7:f}\n".format(ime_agenta,a.brojAgenta,a.radijus,a.kut,a.polozaj[0],a.polozaj[1],a.brzina[0],a.brzina[1])
+            else:
+                sadrzajIspisa += "{0:s}: Nema povezanosti sa agentom {1:d}.\n".format(ime_agenta,i+1)    
+        podaci.ispis(sadrzajIspisa)
         self.myAgent.lock.release()
         podaci.ispis("Azurirano.")
         self._exitcode=self.myAgent.AZURIRANO
