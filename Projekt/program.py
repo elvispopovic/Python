@@ -13,12 +13,13 @@ if __name__=="__main__":
     listaAgenata = list()
     if len(podaciDatoteka.matrica_susjednosti)>0 and len(podaciDatoteka.matrica_susjednosti)<100:
         for i in range(1,len(podaciDatoteka.matrica_susjednosti)+1):
-            agent = Agent( "agent_{0:d}@127.0.0.1".format(i), "tajna" )
-            agent.naziv = "Agent {0:d}".format(i)
-            agent.brojAgenta = i
+            ime_agenta = podaciDatoteka.imena_agenata[i-1]
+            agent = Agent( "{0:s}@127.0.0.1".format(ime_agenta), "tajna" )
             agent.podaciDatoteka = podaciDatoteka
+            agent.koordinate = agent.podaciDatoteka.koordinate_agenata[i-1]
             listaAgenata.append(agent)
         podaciDatoteka.ispis("Pokretanje agenata:")
         for agent in listaAgenata:
             agent.start()
-    print "OK"
+        print "OK"
+    print "..."

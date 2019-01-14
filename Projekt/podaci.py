@@ -14,6 +14,7 @@ class StanjeAgenta:
             self.brzina.append(0.0)
         self.radijus  = 1.0
         self.kut = 0.0
+        self.brojAgenta = 0
 
 class PodaciDatoteka(threading.Thread):
     def __init__(self,datoteka):
@@ -23,6 +24,7 @@ class PodaciDatoteka(threading.Thread):
         self.lista_redaka=list()
         self.zaglavlje=list()
         self.matrica_susjednosti =list()
+        self.imena_agenata = list()
         self.koordinate_agenata = list()
 
     def procitaj(self):
@@ -37,7 +39,7 @@ class PodaciDatoteka(threading.Thread):
         self.procitajKoordinate()
 
     def procitajZaglavlje(self):
-        self.zaglavlje = self.lista_redaka[0].split(",")
+        self.zaglavlje = self.lista_redaka[0].split(":")
         self.brojAgenata = int(self.zaglavlje[1])
 
     def procitajMatricuSusjednosti(self):
@@ -51,16 +53,18 @@ class PodaciDatoteka(threading.Thread):
 
     def procitajKoordinate(self):
         for ag in range(0,self.brojAgenata):
-            granicaRedaka = min(4*(ag+1)+self.brojAgenata+1,len(self.lista_redaka))
+            granicaRedaka = min(5*(ag+1)+self.brojAgenata+1,len(self.lista_redaka))
             tip = 0
             stanjeAgenta = StanjeAgenta()
-            for i in range(4*ag+self.brojAgenata+1,granicaRedaka):
-                tip+=1
+            stanjeAgenta.brojAgenta = ag+1
+            for i in range(5*ag+self.brojAgenata+1,granicaRedaka):
                 redak = self.lista_redaka[i].split(":")
                 if len(redak)<2:
                     continue
                 koordinate = redak[1].split(",")
-                if tip == 1:
+                if tip == 0:
+                    self.imena_agenata.append(koordinate[0])
+                elif tip == 1:
                     stanjeAgenta.radijus=float(koordinate[0])
                 elif tip == 2:
                     stanjeAgenta.kut=float(koordinate[0])
@@ -70,6 +74,7 @@ class PodaciDatoteka(threading.Thread):
                 elif tip == 4:
                     for i in range(0,len(koordinate)):
                         stanjeAgenta.brzina[i]=float(koordinate[i])
+                tip+=1
             self.koordinate_agenata.append(stanjeAgenta)
         granicaRedaka = min(4*self.brojAgenata+self.brojAgenata+1,len(self.lista_redaka))
         

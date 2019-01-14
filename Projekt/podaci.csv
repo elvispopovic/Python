@@ -1,4 +1,4 @@
-brojAgenata,5
+brojAgenata:5
 
 0,0,0,1,1
 0,0,1,0,1
@@ -6,26 +6,31 @@ brojAgenata,5
 1,0,1,0,0
 1,1,0,0,0
 
+agent:prvi
 ro1:10.0
 theta1:0.0
 r1:10.0,10.0
 v1:1.0,1.0
 
+agent:drugi
 ro2:10.0
 theta2:72.0
 r2:12.0,0.0
 v2:-1.0,1.0
 
+agent:treci
 ro3:10.0
 theta3:144.0
 r3:5.0,-8.0
 v3:0.5,-1.0
 
+agent:cetvrti
 ro4:10.0
 theta4:216.0
 r4:-5.0,-9.0
 v4:-0.8,-1.0
 
+agent:peti
 ro5:10.0
 theta5:288.0
 r5:-6.0,5.0
